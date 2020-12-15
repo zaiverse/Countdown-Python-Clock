@@ -1,4 +1,4 @@
-#import time module
+#import time and datetime module
 import time
 import datetime
 
@@ -20,9 +20,6 @@ def countdown(m,s):
             s -= 1
             time.sleep(1)
 
-#ask user for hour(s), minute(s), and second(s) they would like to count down from
-print("Welcome to clock world!")
-
 #handles user input
 def begin():
     
@@ -30,6 +27,7 @@ def begin():
 
     #loop until user enters integer only for both minutes and seconds
     while userInput:
+        #ask user for minute(s), and second(s) they would like to count down from
         m = input("Enter minute(s): ")
         s = input("Enter second(s): ")
 
@@ -41,7 +39,8 @@ def begin():
             #exit loop
             userInput = False
         except:
-            print("You entered something wrong")
+            print("Please enter integer values only. ")
 
 
+print("Welcome to clock world!")
 begin()
