@@ -1,17 +1,24 @@
 import sys
 from PyQt6.QtCore import QTimer,QDateTime
-from PyQt6.QtWidgets import QApplication, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QFrame, QGridLayout
+from PyQt6.QtWidgets import QApplication, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QWidget, QFrame, QGridLayout, QTabWidget
 
 class CountdownClock(QWidget):
 
     def __init__(self):
         super().__init__()
 
-        # Create layouts
+        # Create grid layouts
+        self.mainlayout = QGridLayout()
         self.grid = QGridLayout()
-        lay1 = QVBoxLayout()
-        lay2 = QVBoxLayout()
-        layout = QVBoxLayout()
+
+        #Timer tab
+        timeSelectLayout = QVBoxLayout()
+        timeLabelLayout = QVBoxLayout()
+        timerLayout = QVBoxLayout()
+        self.timerTab = QWidget()
+        self.timerTab.setLayout(timerLayout)
+        #Tab widget
+        self.tabs = QTabWidget()
 
         # Rows for selection menu of time
         self.firstRow = 0
@@ -22,7 +29,7 @@ class CountdownClock(QWidget):
         self.firstCol = 0
         self.secondCol = 1
         self.thirdCol = 2
-        # Row were number selection is located
+        # Row where number selection is located
         self.rowOfNum = 1
 
         # Create menu selection
@@ -36,7 +43,7 @@ class CountdownClock(QWidget):
 
         # Create time label
         self.timeLabel = QLabel("00:00:00")
-        lay2.addWidget(self.timeLabel)
+        timeLabelLayout.addWidget(self.timeLabel)
 
         self.timer = QTimer()
 
@@ -44,12 +51,17 @@ class CountdownClock(QWidget):
         self.selectTime = QPushButton("Submit")
         self.selectTime.clicked.connect(self.getTime)
 
-        layout.addLayout(lay2)            
-        layout.addLayout(self.grid)
+        timerLayout.addLayout(timeLabelLayout)            
+        timerLayout.addLayout(self.grid)
 
-        lay1.addWidget(self.selectTime)
-        layout.addLayout(lay1)
-        self.setLayout(layout)
+        timeSelectLayout.addWidget(self.selectTime)
+        timerLayout.addLayout(timeSelectLayout)
+
+        self.tabs.addTab(self.timerTab, 'Timer')
+        self.mainlayout.addWidget(self.tabs)
+
+        self.setLayout(self.mainlayout)
+
     
     # This function creates buttons that allows access to their row and column placement
     def createButton(self,text,row,col):
